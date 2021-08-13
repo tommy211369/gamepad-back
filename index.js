@@ -17,7 +17,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // routes import
 const userRoutes = require("./routes/user");
+const gamesRoutes = require("./routes/games");
 app.use(userRoutes);
+app.use(gamesRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome on GamePad API by Tommy !" });
