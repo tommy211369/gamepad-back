@@ -20,7 +20,7 @@ const userRoutes = require("./routes/user");
 app.use(userRoutes);
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Welcome on GamePad API !" });
+  res.status(200).json({ message: "Welcome on GamePad API by Tommy !" });
 });
 
 app.all("*", (req, res) => {
