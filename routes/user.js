@@ -128,7 +128,7 @@ router.get("/user/favorites", isAuthenticated, (req, res) => {
 });
 
 // add game to user favorites
-router.post("user/favorites", isAuthenticated, (req, res) => {
+router.post("user/favorites", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
     const user = req.user;
@@ -167,7 +167,7 @@ router.post("user/favorites", isAuthenticated, (req, res) => {
 });
 
 // remove game from user favorites
-router.delete("/user/favorites", isAuthenticated, (req, res) => {
+router.delete("/user/favorites", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
     const user = req.user;
@@ -192,7 +192,7 @@ router.delete("/user/favorites", isAuthenticated, (req, res) => {
 });
 
 // REVIEWS (post/get/delete)
-router.post("/user/reviews", isAuthenticated, (req, res) => {
+router.post("/user/reviews", isAuthenticated, async (req, res) => {
   // req.user : user from isAuthenticated
   const user = req.user;
 
