@@ -11,7 +11,7 @@ const User = require("../models/User");
 const Review = require("../models/Review");
 
 // SIGN UP (post)
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
     const emailExist = await User.findOne({ email: req.fields.email });
     if (emailExist) {
