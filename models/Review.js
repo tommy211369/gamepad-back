@@ -9,4 +9,4 @@ const Review = mongoose.model("Review", {
   },
 });
 
-module.exports = Offer;
+module.exports = Review;
