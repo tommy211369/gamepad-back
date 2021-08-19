@@ -155,9 +155,7 @@ router.post("/user/favorites", isAuthenticated, async (req, res) => {
       user.favorites.splice(index, 1);
       await user.save();
 
-      res
-        .status(200)
-        .json({ message: `Game removed from ${user.username} favorites` });
+      res.status(200).json(user.favorites);
     }
   } catch (error) {
     res.status(400).json(error.message);
