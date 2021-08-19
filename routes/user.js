@@ -123,9 +123,7 @@ router.get("/user/favorites", async (req, res) => {
 
   const userFavorites = user.favorites;
 
-  res
-    .status(200)
-    .json({ message: `${user.username} favorites`, userFavorites });
+  res.status(200).json(userFavorites);
 });
 
 // add game to user favorites
@@ -151,9 +149,7 @@ router.post("/user/favorites", isAuthenticated, async (req, res) => {
 
       await user.save();
 
-      res
-        .status(200)
-        .json({ message: `Game added to ${user.username} favorites` });
+      res.status(200).json(user.favorites);
     } else {
       // remove from favorites
       user.favorites.splice(index, 1);
@@ -185,9 +181,7 @@ router.delete("/user/favorites", isAuthenticated, async (req, res) => {
     user.favorites.splice(index, 1);
     await user.save();
 
-    res
-      .status(200)
-      .json({ message: `Game removed from ${user.username} favorites` });
+    res.status(200).json(user.favorites);
   } catch (error) {
     res.status(400).json(error.message);
   }
