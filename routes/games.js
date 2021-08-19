@@ -67,11 +67,10 @@ router.get("/games/:id/game-series", async (req, res) => {
 // Games Like (get)
 router.get("/games_like", async (req, res) => {
   try {
-    const tags = req.query.tags;
     const genres = req.query.genres;
 
     const response = await axios.get(
-      `https://api.rawg.io/api/games?tags=${tags}&genres=${genres}&key=${process.env.API_KEY}`
+      `https://api.rawg.io/api/games?genres=${genres}&key=${process.env.API_KEY}`
     );
 
     res.status(200).json(response.data.results);
