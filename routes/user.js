@@ -16,7 +16,7 @@ router.post("/signup", async (req, res) => {
     const emailExist = await User.findOne({ email: req.fields.email });
     if (emailExist) {
       res.status(409).json({ message: "User already exists" });
-    } else if (req.fields.username || req.fields.email === "") {
+    } else if (req.fields.username === "" || req.fields.email === "") {
       res.status(400).json({ message: "Username/Email is required" });
     } else if (req.fields.password !== req.fields.confirm) {
       res.status(401).json({ message: "Enter same password and confirmation" });
