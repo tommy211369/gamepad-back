@@ -64,6 +64,21 @@ router.get("/games/:id/game-series", async (req, res) => {
   }
 });
 
+// Games Like (get)
+router.get("/games/suggested", async (req, res) => {
+  try {
+    const genres = req.query.genres;
+
+    const response = await axios.get(
+      `https://api.rawg.io/api/games?genres=${genres}&key=${process.env.API_KEY}`
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.log("Games Series error :", error.response.data);
+  }
+});
+
 // Platforms (get)
 router.get("/platforms", async (req, res) => {
   try {
