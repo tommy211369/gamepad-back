@@ -65,7 +65,7 @@ router.get("/games/:id/game-series", async (req, res) => {
 });
 
 // Games Like (get)
-router.get("/games/suggested", async (req, res) => {
+router.get("/games-like", async (req, res) => {
   try {
     const genres = req.query.genres;
 
@@ -75,7 +75,7 @@ router.get("/games/suggested", async (req, res) => {
 
     res.status(200).json(response.data);
   } catch (error) {
-    console.log("Games Series error :", error.response.data);
+    console.log("Games Like error :", error.response.data);
   }
 });
 
