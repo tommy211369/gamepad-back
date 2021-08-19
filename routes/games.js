@@ -1,15 +1,93 @@
 const express = require("express");
 const router = express.Router();
-const uid2 = require("uid2");
-const SH256 = require("crypto-js/sha256");
-const encBase64 = require("crypto-js/enc-base64");
+const axios = require("axios");
 
 // import User model
 const User = require("../models/User");
 
 // Games (get) with filters
-router.get("/games", (req, res) => {
-  res.status(200).json({ message: "Games route !" });
+router.get("/games", async (req, res) => {
+  try {
+    const page = req.query.page;
+    const search = req.query.search;
+    const ordering = req.query.ordering;
+    const platform = req.query.platforms;
+    const genre = req.query.genres;
+
+    let queries = "";
+    if (platform) {
+      queries = queries + `&platforms=${platform}`;
+    }
+    if (genre) {
+      queries = queries + `&genres=${genre}`;
+    }
+
+    const response = await axios.get(
+      `https://api.rawg.io/api/games?page=${page}&search=${search}&search_precise=true&ordering=${ordering}&key=${process.env.API_KEY}${queries}`
+    );
+
+    res
+      .status(200)
+      .json({ count: response.data.count, results: response.data.results });
+  } catch (error) {
+    console.log("Games error :", error.response.data);
+  }
+});
+
+// Game details (get)
+router.get("/games/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${id}?key=${process.env.API_KEY}`
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.log("Games Details error :", error.response.data);
+  }
+});
+
+// Game Series (get)
+router.get("/games/:id/game-series", async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const response = await axios.get(
+      `https://api.rawg.io/api/games/${id}/game-series?key=${process.env.API_KEY}`
+    );
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.log("Games Series error :", error.response.data);
+  }
+});
+
+// Platforms (get)
+router.get("/platforms", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://api.rawg.io/api/platforms?&key=${process.env.API_KEY}`
+    );
+
+    res.status(200).json({ results: response.data.results });
+  } catch (error) {
+    console.log("Platforms error :", error.message);
+  }
+});
+
+// Genres (get)
+router.get("/genres", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://api.rawg.io/api/genres?&key=${process.env.API_KEY}`
+    );
+
+    res.status(200).json({ results: response.data.results });
+  } catch (error) {
+    console.log("Genres error :", error.message);
+  }
 });
 
 module.exports = router;
