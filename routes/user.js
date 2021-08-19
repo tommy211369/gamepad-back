@@ -116,9 +116,10 @@ router.post("/login", async (req, res) => {
 });
 
 // FAVORITES (post/get/delete)
-router.get("/user/favorites", isAuthenticated, (req, res) => {
-  // req.user : user from isAuthenticated
-  const user = req.user;
+router.get("/user/favorites", async (req, res) => {
+  let token = req.query.token;
+
+  const user = await User.findOne({ token: token });
 
   const userFavorites = user.favorites;
 
