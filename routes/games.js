@@ -67,13 +67,13 @@ router.get("/games/:id/game-series", async (req, res) => {
 // Games Like (get)
 router.get("/games_like", async (req, res) => {
   try {
-    const genres = req.query.genres;
+    const tags = req.query.tags;
 
     const response = await axios.get(
-      `https://api.rawg.io/api/games?genres=${genres}&key=${process.env.API_KEY}`
+      `https://api.rawg.io/api/games?tags=${tags}&key=${process.env.API_KEY}`
     );
 
-    res.status(200).json(response.data);
+    res.status(200).json(response.data.results);
   } catch (error) {
     console.log("Games Like error :", error.response.data);
   }
