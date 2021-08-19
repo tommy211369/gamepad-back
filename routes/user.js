@@ -129,7 +129,7 @@ router.get("/user/favorites", async (req, res) => {
 });
 
 // add game to user favorites
-router.post("user/favorites", isAuthenticated, async (req, res) => {
+router.post("/user/favorites", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
     const user = req.user;
@@ -142,6 +142,7 @@ router.post("user/favorites", isAuthenticated, async (req, res) => {
     const index = user.favorites.indexOf(exist);
 
     if (!exist) {
+      // add to user favorites
       user.favorites.push({
         id: gameId,
         name: gameName,
