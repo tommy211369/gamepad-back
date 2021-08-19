@@ -65,7 +65,7 @@ router.get("/games/:id/game-series", async (req, res) => {
 });
 
 // Games Like (get)
-router.get("/games-like", async (req, res) => {
+router.get("/games_like", async (req, res) => {
   try {
     const genres = req.query.genres;
 
