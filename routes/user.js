@@ -168,10 +168,10 @@ router.delete("/user/favorites", isAuthenticated, async (req, res) => {
     // req.user : user from isAuthenticated
     const user = req.user;
 
-    const itemId = req.query.gameId;
+    const gameId = req.query.id;
 
     // exist : item already in DB
-    const exist = user.favorites.find((elem) => elem.id === itemId);
+    const exist = user.favorites.find((elem) => elem.id === gameId);
     // index : index of this item in user.favorites array
     const index = user.favorites.indexOf(exist);
 
