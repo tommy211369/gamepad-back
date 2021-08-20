@@ -4,6 +4,7 @@ const axios = require("axios");
 
 // import User model
 const User = require("../models/User");
+const Review = require("../models/Review");
 
 // Games (get) with filters
 router.get("/games", async (req, res) => {
@@ -49,21 +50,6 @@ router.get("/games/:id", async (req, res) => {
   }
 });
 
-// Game Series (get)
-router.get("/games/:id/game-series", async (req, res) => {
-  try {
-    const id = req.params.id;
-
-    const response = await axios.get(
-      `https://api.rawg.io/api/games/${id}/game-series?key=${process.env.API_KEY}`
-    );
-
-    res.status(200).json(response.data);
-  } catch (error) {
-    console.log("Games Series error :", error.response.data);
-  }
-});
-
 // Games Like (get)
 router.get("/games_like", async (req, res) => {
   try {
@@ -102,6 +88,19 @@ router.get("/genres", async (req, res) => {
     res.status(200).json({ results: response.data.results });
   } catch (error) {
     console.log("Genres error :", error.message);
+  }
+});
+
+// Game reviews
+router.get("/reviews", async (req, res) => {
+  try {
+    const id = req.query.gameId;
+
+    const reviews = await Review.find({ gameId: id }).populate("user");
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(400).json(error.message);
   }
 });
 
