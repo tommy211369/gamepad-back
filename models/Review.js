@@ -8,6 +8,7 @@ const Review = mongoose.model("Review", {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  date: String,
 });
 
 module.exports = Review;

@@ -202,6 +202,7 @@ router.post("/reviews", isAuthenticated, async (req, res) => {
         text: req.fields.text,
         gameId: req.fields.gameId,
         user: user._id,
+        date: req.fields.date,
       });
 
       await newReview.save();
@@ -210,6 +211,7 @@ router.post("/reviews", isAuthenticated, async (req, res) => {
         title: req.fields.title,
         text: req.fields.text,
         gameId: req.fields.gameId,
+        date: req.fields.date,
       });
 
       await user.save();
