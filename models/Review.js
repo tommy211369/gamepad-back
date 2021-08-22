@@ -9,6 +9,8 @@ const Review = mongoose.model("Review", {
     ref: "User",
   },
   date: String,
+  likes: Number,
+  dislikes: Number,
 });
 
 module.exports = Review;

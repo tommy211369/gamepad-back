@@ -99,14 +99,14 @@ router.post("/login", async (req, res) => {
           picture: user.picture,
         };
 
-        console.log({ message: "Logged in !", resUser: resUser });
+        // console.log({ message: "Logged in !", resUser: resUser });
         res.status(200).json({ message: "Logged in !", resUser: resUser });
       } else {
-        console.log({ message: "Wrong password" });
+        // console.log({ message: "Wrong password" });
         res.status(400).json({ message: "Wrong password" });
       }
     } else {
-      console.log({ message: "Unauthorized : user not recognized" });
+      // console.log({ message: "Unauthorized : user not recognized" });
       res.status(401).json({ message: "Unauthorized : user not recognized" });
     }
   } catch (error) {
@@ -203,6 +203,8 @@ router.post("/reviews", isAuthenticated, async (req, res) => {
         gameId: req.fields.gameId,
         user: user._id,
         date: req.fields.date,
+        likes: 0,
+        dislikes: 0,
       });
 
       await newReview.save();
@@ -253,13 +255,13 @@ router.delete("/user/review", async (req, res) => {
     const token = req.query.token;
 
     const user = await User.findOne({ token: token });
-    await Review.remove({ gameId: gameId, user: user._id });
 
     const exist = user.reviews.find((elem) => elem.gameId === gameId);
     const index = user.reviews.indexOf(exist);
 
     user.reviews.splice(index, 1);
 
+    await Review.remove({ gameId: gameId, user: user._id });
     await user.save();
 
     res.status(200).json("Review deleted");
