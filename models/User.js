@@ -5,6 +5,8 @@ const User = mongoose.model("User", {
   username: String,
   favorites: Array,
   reviews: Array,
+  likes: Array,
+  dislikes: Array,
   token: String,
   hash: String,
   salt: String,

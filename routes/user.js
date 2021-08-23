@@ -39,6 +39,8 @@ router.post("/signup", async (req, res) => {
           username: req.fields.username,
           favorites: [],
           reviews: [],
+          likes: [],
+          dislikes: [],
           token: userToken,
           hash: userHash,
           salt: userSalt,
@@ -61,6 +63,8 @@ router.post("/signup", async (req, res) => {
           username: req.fields.username,
           favorites: [],
           reviews: [],
+          likes: [],
+          dislikes: [],
           token: userToken,
           hash: userHash,
           salt: userSalt,
@@ -180,91 +184,6 @@ router.delete("/user/favorites", isAuthenticated, async (req, res) => {
     await user.save();
 
     res.status(200).json(user.favorites);
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
-// REVIEWS (post/get/delete)
-router.post("/reviews", isAuthenticated, async (req, res) => {
-  try {
-    // req.user : user from isAuthenticated
-    const user = req.user;
-
-    // exist : check if game already in user reviews
-    const exist = user.reviews.find(
-      (elem) => elem.gameId === req.fields.gameId
-    );
-
-    if (!exist) {
-      const newReview = await new Review({
-        title: req.fields.title,
-        text: req.fields.text,
-        gameId: req.fields.gameId,
-        user: user._id,
-        date: req.fields.date,
-        likes: 0,
-        dislikes: 0,
-      });
-
-      await newReview.save();
-
-      user.reviews.push({
-        title: req.fields.title,
-        text: req.fields.text,
-        gameId: req.fields.gameId,
-        date: req.fields.date,
-      });
-
-      await user.save();
-
-      res.status(200).json({
-        message: `Review added to ${user.username} reviews`,
-        review: newReview,
-      });
-    } else {
-      res.status(200).json(`${user.username} already reviewed this game`);
-    }
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
-router.get("/user/review", async (req, res) => {
-  try {
-    const token = req.query.token;
-    const gameId = req.query.gameId;
-
-    const user = await User.findOne({ token: token });
-
-    const exist = user.reviews.find((elem) => elem.gameId === gameId);
-
-    if (exist) {
-      res.status(200).json({ bool: true, review: exist });
-    } else {
-      res.status(200).json({ bool: false });
-    }
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
-router.delete("/user/review", async (req, res) => {
-  try {
-    const gameId = req.query.gameId;
-    const token = req.query.token;
-
-    const user = await User.findOne({ token: token });
-
-    const exist = user.reviews.find((elem) => elem.gameId === gameId);
-    const index = user.reviews.indexOf(exist);
-
-    user.reviews.splice(index, 1);
-
-    await Review.remove({ gameId: gameId, user: user._id });
-    await user.save();
-
-    res.status(200).json("Review deleted");
   } catch (error) {
     res.status(400).json(error.message);
   }

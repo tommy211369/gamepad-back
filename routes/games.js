@@ -92,17 +92,4 @@ router.get("/genres", async (req, res) => {
   }
 });
 
-// Game reviews
-router.get("/reviews", async (req, res) => {
-  try {
-    const id = req.query.gameId;
-
-    const reviews = await Review.find({ gameId: id }).populate("user");
-
-    res.status(200).json(reviews);
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-});
-
 module.exports = router;

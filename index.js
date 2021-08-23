@@ -27,8 +27,10 @@ cloudinary.config({
 // routes import
 const userRoutes = require("./routes/user");
 const gamesRoutes = require("./routes/games");
+const reviewRoutes = require("./routes/review");
 app.use(userRoutes);
 app.use(gamesRoutes);
+app.use(reviewRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome on GamePad API by Tommy !" });
