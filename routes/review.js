@@ -6,7 +6,7 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const User = require("../models/User");
 const Review = require("../models/Review");
 
-// get Game reviews
+// get all reviews of the game
 router.get("/reviews", async (req, res) => {
   try {
     const id = req.query.gameId;

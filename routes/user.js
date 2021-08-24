@@ -119,8 +119,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// FAVORITES (post/get/delete)
-
+// FAVORITES
+// get all user favorites
 router.get("/user/favorites", async (req, res) => {
   try {
     let token = req.query.token;
