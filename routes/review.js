@@ -19,14 +19,13 @@ router.get("/reviews", async (req, res) => {
   }
 });
 
-// REVIEWS
 // post a review
 router.post("/reviews", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
     const user = req.user;
 
-    // exist : check if game already in user reviews
+    // exist : check if user already reviewed the game
     const exist = user.reviews.find(
       (elem) => elem.gameId === req.fields.gameId
     );
@@ -65,7 +64,7 @@ router.post("/reviews", isAuthenticated, async (req, res) => {
   }
 });
 
-// post a review
+// check if user reviewed the game
 router.get("/user/review", async (req, res) => {
   try {
     const token = req.query.token;

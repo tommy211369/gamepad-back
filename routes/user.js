@@ -120,14 +120,19 @@ router.post("/login", async (req, res) => {
 });
 
 // FAVORITES (post/get/delete)
+
 router.get("/user/favorites", async (req, res) => {
-  let token = req.query.token;
+  try {
+    let token = req.query.token;
 
-  const user = await User.findOne({ token: token });
+    const user = await User.findOne({ token: token });
 
-  const userFavorites = user.favorites;
+    const userFavorites = user.favorites;
 
-  res.status(200).json(userFavorites);
+    res.status(200).json(userFavorites);
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
 });
 
 // add game to user favorites
@@ -139,14 +144,14 @@ router.post("/user/favorites", isAuthenticated, async (req, res) => {
     let { gameId, gameName, gameImage } = req.fields;
 
     // exist : game already in DB
-    const exist = user.favorites.find((elem) => elem.id === gameId);
+    const exist = user.favorites.find((elem) => elem.gameId === gameId);
     // index : index of this item
     const index = user.favorites.indexOf(exist);
 
     if (!exist) {
       // add to user favorites
       user.favorites.push({
-        id: gameId,
+        gameId: gameId,
         name: gameName,
         image: gameImage,
       });
@@ -175,7 +180,7 @@ router.delete("/user/favorites", isAuthenticated, async (req, res) => {
     const gameId = req.query.id;
 
     // exist : item already in DB
-    const exist = user.favorites.find((elem) => elem.id === gameId);
+    const exist = user.favorites.find((elem) => elem.gameId === gameId);
     // index : index of this item in user.favorites array
     const index = user.favorites.indexOf(exist);
 
