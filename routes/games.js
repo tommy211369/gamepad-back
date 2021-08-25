@@ -7,7 +7,7 @@ const User = require("../models/User");
 const Review = require("../models/Review");
 
 // Games : get all games
-router.get("allgames/", async (res, res) => {
+router.get("/allgames", async (res, res) => {
   try {
     const page = req.query.page;
     const response = await axios.get(
