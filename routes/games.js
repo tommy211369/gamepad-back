@@ -6,6 +6,22 @@ const axios = require("axios");
 const User = require("../models/User");
 const Review = require("../models/Review");
 
+// Games : get all games
+router.get("allgames/", async (res, res) => {
+  try {
+    const page = req.query.page;
+    const response = await axios.get(
+      `https://api.rawg.io/api/games?page=${page}&key=${process.env.API_KEY}`
+    );
+
+    res
+      .status(200)
+      .json({ count: response.data.count, results: response.data.results });
+  } catch (error) {
+    res.status(400).json("All Games error :", error.response.data);
+  }
+});
+
 // Games (get) with filters
 router.get("/games", async (req, res) => {
   try {
