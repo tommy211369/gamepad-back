@@ -135,21 +135,10 @@ router.post("/user/note", async (req, res) => {
       res.status(200).json({ message: "Like added", review: review });
     } else if (note === "like" && existDislike && !existLike) {
       // if user likes but already disliked
-
-      // res.status(200).json({
-      //   message: "You have already disliked this review",
-      //   user: user,
-      // });
-
-      // push dans user.likes et delete de user.dislikes
-      user.likes.push({ gameId: gameId, reviewId: reviewId });
-      user.dislikes.splice(indexDislike, 1);
-      review.dislikes -= 1;
-      review.likes += 1;
-      await review.save();
-      await user.save();
-
-      res.status(200).json({ message: "Like added", review: review });
+      res.status(200).json({
+        message: "You have already disliked this review",
+        user: user,
+      });
     } else if (note === "dislike" && !existLike && !existDislike) {
       // if user dislikes and did not liked yet
       user.dislikes.push({ gameId: gameId, reviewId: reviewId });
@@ -159,20 +148,10 @@ router.post("/user/note", async (req, res) => {
       res.status(200).json({ message: "Dislike added", review: review });
     } else if (note === "dislike" && existLike && !existDislike) {
       // if user dislikes but already liked
-      // res.status(200).json({
-      //   message: "You have already liked this review",
-      //   user: user,
-      // });
-
-      // push dans user.dislikes et delete de user.likes
-      user.dislikes.push({ gameId: gameId, reviewId: reviewId });
-      user.likes.splice(indexLike, 1);
-      review.likes -= 1;
-      review.dislikes += 1;
-
-      await review.save();
-      await user.save();
-      res.status(200).json({ message: "Dislike added", review: review });
+      res.status(200).json({
+        message: "You have already liked this review",
+        user: user,
+      });
     } else if (note === "like" && existLike && !existDislike) {
       // user has already liked this review
       user.likes.splice(indexLike, 1);
