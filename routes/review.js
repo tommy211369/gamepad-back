@@ -127,40 +127,64 @@ router.post("/user/note", async (req, res) => {
     const indexDislike = user.likes.indexOf(existDislike);
 
     if (note === "like" && !existDislike && !existLike) {
-      // if user likes and did not disliked yet
+      // if user likes and did not disliked yet >
       user.likes.push({ gameId: gameId, reviewId: reviewId });
       review.likes += 1;
       await review.save();
       await user.save();
       res.status(200).json({ message: "Like added", review: review });
     } else if (note === "like" && existDislike && !existLike) {
-      // if user likes but already disliked
-      res.status(200).json({
-        message: "You have already disliked this review",
-        user: user,
-      });
+      // if user likes but already disliked >
+
+      // res.status(200).json({
+      //   message: "You have already disliked this review",
+      //   code: 1,
+      //   user: user,
+      // });
+
+      // push user.likes / remove user.dislikes >
+      user.likes.push({ gameId: gameId, reviewId: reviewId });
+      user.dislikes.splice(indexDislike, 1);
+      review.dislikes -= 1;
+      review.likes += 1;
+
+      await review.save();
+      await user.save();
+      res.status(200).json({ message: "Like added", code: 1, review: review });
     } else if (note === "dislike" && !existLike && !existDislike) {
-      // if user dislikes and did not liked yet
+      // if user dislikes and did not liked yet >
       user.dislikes.push({ gameId: gameId, reviewId: reviewId });
       review.dislikes += 1;
       await review.save();
       await user.save();
       res.status(200).json({ message: "Dislike added", review: review });
     } else if (note === "dislike" && existLike && !existDislike) {
-      // if user dislikes but already liked
-      res.status(200).json({
-        message: "You have already liked this review",
-        user: user,
-      });
+      // if user dislikes but already liked >
+
+      // res.status(200).json({
+      //   message: "You have already liked this review",
+      //   code: 2,
+      //   user: user,
+      // });
+
+      // user.dislikes push / remove user.likes >
+      user.dislikes.push({ gameId: gameId, reviewId: reviewId });
+      user.likes.splice(indexLike, 1);
+      review.likes -= 1;
+      review.dislikes += 1;
+
+      await review.save();
+      await user.save();
+      res.status(200).json({ message: "Dislike added", review: review });
     } else if (note === "like" && existLike && !existDislike) {
-      // user has already liked this review
+      // user has already liked this review >
       user.likes.splice(indexLike, 1);
       review.likes -= 1;
       await review.save();
       await user.save();
       res.status(200).json({ message: "Like deleted", review: review });
     } else if (note === "dislike" && existDislike && !existLike) {
-      // user has already disliked this review
+      // user has already disliked this review >
       user.dislikes.splice(indexDislike, 1);
       review.dislikes -= 1;
       await review.save();
