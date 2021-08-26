@@ -175,7 +175,9 @@ router.post("/user/note", async (req, res) => {
 
       await review.save();
       await user.save();
-      res.status(200).json({ message: "Dislike added", review: review });
+      res
+        .status(200)
+        .json({ message: "Dislike added", code: 2, review: review });
     } else if (note === "like" && existLike && !existDislike) {
       // user has already liked this review >
       user.likes.splice(indexLike, 1);
