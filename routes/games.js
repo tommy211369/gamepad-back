@@ -30,9 +30,12 @@ const Review = require("../models/Review");
 // Games (get) with filters
 router.get("/games", async (req, res) => {
   try {
+    const PAGE = req.query.page;
     let page = "";
-    if (req.query.page) {
-      page = req.query.page;
+    if (PAGE) {
+      page = PAGE;
+    } else {
+      page = "";
     }
 
     const search = req.query.search;
