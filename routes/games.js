@@ -7,25 +7,34 @@ const User = require("../models/User");
 const Review = require("../models/Review");
 
 // Games : get all games
-router.get("/allgames", async (req, res) => {
-  try {
-    const page = req.query.page;
-    const response = await axios.get(
-      `https://api.rawg.io/api/games?page=${page}&key=${process.env.API_KEY}`
-    );
+// router.get("/allgames", async (req, res) => {
+//   try {
+//     const page = req.query.page;
+//     const search = req.query.search;
+//     const ordering = req.query.ordering;
+//     const platform = req.query.platforms;
+//     const genre = req.query.genres;
 
-    res
-      .status(200)
-      .json({ count: response.data.count, results: response.data.results });
-  } catch (error) {
-    res.status(400).json("All Games error :", error.response.data);
-  }
-});
+//     const response = await axios.get(
+//       `https://api.rawg.io/api/games?page=${page}&search=${search}&search_precise=true&key=${process.env.API_KEY}`
+//     );
+
+//     res
+//       .status(200)
+//       .json({ count: response.data.count, results: response.data.results });
+//   } catch (error) {
+//     res.status(400).json("All Games error :", error.response.data);
+//   }
+// });
 
 // Games (get) with filters
 router.get("/games", async (req, res) => {
   try {
-    const page = req.query.page;
+    let page = "";
+    if (req.query.page) {
+      page = req.query.page;
+    }
+
     const search = req.query.search;
     const ordering = req.query.ordering;
     const platform = req.query.platforms;
