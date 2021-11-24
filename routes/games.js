@@ -1,3 +1,4 @@
+// Librairies
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
@@ -27,7 +28,7 @@ const Review = require("../models/Review");
 //   }
 // });
 
-// Games (get) with filters
+// Get games (with filters)
 router.get("/games", async (req, res) => {
   try {
     const PAGE = req.query.page;
@@ -63,7 +64,7 @@ router.get("/games", async (req, res) => {
   }
 });
 
-// Game details (get)
+// Get game details
 router.get("/games/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -78,7 +79,7 @@ router.get("/games/:id", async (req, res) => {
   }
 });
 
-// Games Like (get)
+// Get games associated with actual game
 router.get("/games_like", async (req, res) => {
   try {
     const genres = req.query.genres;
@@ -94,7 +95,7 @@ router.get("/games_like", async (req, res) => {
   }
 });
 
-// Platforms (get)
+// Get platforms
 router.get("/platforms", async (req, res) => {
   try {
     const response = await axios.get(
@@ -107,7 +108,7 @@ router.get("/platforms", async (req, res) => {
   }
 });
 
-// Genres (get)
+// Get genres
 router.get("/genres", async (req, res) => {
   try {
     const response = await axios.get(

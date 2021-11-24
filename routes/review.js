@@ -1,3 +1,4 @@
+// Librairies
 const express = require("express");
 const router = express.Router();
 const isAuthenticated = require("../middlewares/isAuthenticated");
@@ -6,7 +7,7 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const User = require("../models/User");
 const Review = require("../models/Review");
 
-// get all reviews of the game
+// Get all reviews of the game
 router.get("/reviews", async (req, res) => {
   try {
     const id = req.query.gameId;
@@ -19,7 +20,7 @@ router.get("/reviews", async (req, res) => {
   }
 });
 
-// post a review
+// Post a review
 router.post("/reviews", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
@@ -64,7 +65,7 @@ router.post("/reviews", isAuthenticated, async (req, res) => {
   }
 });
 
-// check if user reviewed the game
+// Check if user reviewed the game
 router.get("/user/review", async (req, res) => {
   try {
     const token = req.query.token;
@@ -84,7 +85,7 @@ router.get("/user/review", async (req, res) => {
   }
 });
 
-// delete a review
+// Delete a review
 router.delete("/user/review", async (req, res) => {
   try {
     const gameId = req.query.gameId;
@@ -106,7 +107,7 @@ router.delete("/user/review", async (req, res) => {
   }
 });
 
-// post/delete a like or dislike
+// Post/Delete a like or dislike
 router.post("/user/note", async (req, res) => {
   try {
     const reviewId = req.query.reviewId;
@@ -150,13 +151,11 @@ router.post("/user/note", async (req, res) => {
 
       await review.save();
       await user.save();
-      res
-        .status(200)
-        .json({
-          message: "Like added, disliked deleted",
-          code: 1,
-          review: review,
-        });
+      res.status(200).json({
+        message: "Like added, disliked deleted",
+        code: 1,
+        review: review,
+      });
     } else if (note === "dislike" && !existLike && !existDislike) {
       // if user dislikes and did not liked yet >
       user.dislikes.push({ gameId: gameId, reviewId: reviewId });
@@ -181,13 +180,11 @@ router.post("/user/note", async (req, res) => {
 
       await review.save();
       await user.save();
-      res
-        .status(200)
-        .json({
-          message: "Dislike added, like deleted",
-          code: 2,
-          review: review,
-        });
+      res.status(200).json({
+        message: "Dislike added, like deleted",
+        code: 2,
+        review: review,
+      });
     } else if (note === "like" && existLike && !existDislike) {
       // user has already liked this review >
       user.likes.splice(indexLike, 1);

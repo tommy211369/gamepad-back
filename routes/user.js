@@ -1,3 +1,4 @@
+// Librairies
 const express = require("express");
 const router = express.Router();
 const uid2 = require("uid2");
@@ -10,7 +11,7 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const User = require("../models/User");
 const Review = require("../models/Review");
 
-// SIGN UP (post)
+// Sign Up
 router.post("/signup", async (req, res) => {
   try {
     const emailExist = await User.findOne({ email: req.fields.email });
@@ -86,7 +87,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// LOGIN (post)
+// Login
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.fields.email });
@@ -120,7 +121,7 @@ router.post("/login", async (req, res) => {
 });
 
 // FAVORITES
-// get all user favorites
+// Get all user favorite games
 router.get("/user/favorites", async (req, res) => {
   try {
     let token = req.query.token;
@@ -135,7 +136,7 @@ router.get("/user/favorites", async (req, res) => {
   }
 });
 
-// add game to user favorites
+// Add game to user favorite games
 router.post("/user/favorites", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
@@ -171,18 +172,20 @@ router.post("/user/favorites", isAuthenticated, async (req, res) => {
   }
 });
 
-// remove game from user favorites
+// Remove game from user favorite games
 router.delete("/user/favorites", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
     const user = req.user;
 
-    const ID = parseInt(req.query.id);
+    // game id
+    const ID = req.query.id;
 
     // exist : item already in DB
     const exist = user.favorites.find((elem) => elem.gameId === ID);
     // index : index of this item in user.favorites array
     const index = user.favorites.indexOf(exist);
+    // console.log("Index >> ", index) > renvoie -1
 
     // remove item from the favorites array
     user.favorites.splice(index, 1);
