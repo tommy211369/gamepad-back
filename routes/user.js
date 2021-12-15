@@ -177,15 +177,17 @@ router.delete("/user/favorites", isAuthenticated, async (req, res) => {
   try {
     // req.user : user from isAuthenticated
     const user = req.user;
+    // console.log("user > ", user);
 
     // game id
-    const ID = req.query.id;
+    const ID = parseInt(req.query.id);
+    // console.log("id du jeu ", ID);
 
     // exist : item already in DB
     const exist = user.favorites.find((elem) => elem.gameId === ID);
     // index : index of this item in user.favorites array
     const index = user.favorites.indexOf(exist);
-    // console.log("Index >> ", index) > renvoie -1
+    // console.log("Index 1 >> ", index);
 
     // remove item from the favorites array
     user.favorites.splice(index, 1);
