@@ -34,7 +34,7 @@ app.use(gamesRoutes);
 app.use(reviewRoutes);
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Welcome on GamePad API by Tommy !" });
+  res.status(200).json({ message: "Welcome on GamePad API by Tommy Thongrasamy !" });
 });
 
 app.all("*", (req, res) => {
